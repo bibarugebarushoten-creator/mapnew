@@ -1,0 +1,257 @@
+<div class="ofgf-map-page">
+
+  <div class="map-title">
+    <div class="stars">✦✧★✩☆★✧✦</div>
+    <h1>LIVE HOUSE MAP</h1>
+    <p>your guide to tokyo livehouses</p>
+  </div>
+
+  <div class="map-layout">
+
+    <div class="venue-list">
+      <div class="venue"><span>01</span><h2>SHIBUYA</h2><p>big venues, late nights, easy access.</p></div>
+      <div class="venue"><span>02</span><h2>SHIMOKITA</h2><p>indie bands, basement shows, guitar music.</p></div>
+      <div class="venue"><span>03</span><h2>KOENJI</h2><p>punk, weird art, underground energy.</p></div>
+      <div class="venue"><span>04</span><h2>ASAGAYA</h2><p>DIY spaces, community shows, small rooms.</p></div>
+      <div class="venue"><span>05</span><h2>ROPPONGI</h2><p>international shows, bars, nightlife.</p></div>
+    </div>
+
+    <div class="map-box">
+      <div class="label shibuya">SHIBUYA</div>
+      <div class="label shimokita">SHIMOKITA</div>
+      <div class="label koenji">KOENJI</div>
+      <div class="label asagaya">ASAGAYA</div>
+      <div class="label roppongi">ROPPONGI</div>
+
+      <div class="pin p1">1</div>
+      <div class="pin p2">2</div>
+      <div class="pin p3">3</div>
+      <div class="pin p4">4</div>
+      <div class="pin p5">5</div>
+
+      <div class="road r1"></div>
+      <div class="road r2"></div>
+      <div class="road r3"></div>
+      <div class="road r4"></div>
+
+      <div class="map-note">
+        <strong>EXPLORE.</strong>
+        <p>find new bands<br>meet new people<br>support live music</p>
+      </div>
+    </div>
+
+    <div class="tips">
+      <h2>QUICK TIPS ★</h2>
+      <div><strong>doors</strong><p>usually 6–7pm</p></div>
+      <div><strong>drink fee</strong><p>bring cash</p></div>
+      <div><strong>merch</strong><p>support the bands</p></div>
+      <div><strong>respect</strong><p>be kind, be cool</p></div>
+    </div>
+
+  </div>
+
+  <div class="map-footer">
+    ☆ GOOD MUSIC ☆ GOOD PEOPLE ☆ GOOD TIMES ☆
+  </div>
+
+</div>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.ofgf-map-page {
+  background: #fff742;
+  color: #111;
+  font-family: "Arial Black", Impact, sans-serif;
+  padding: 28px;
+  border: 4px solid #111;
+  box-sizing: border-box;
+}
+
+.map-title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.stars {
+  font-size: 46px;
+  letter-spacing: -8px;
+}
+
+.map-title h1 {
+  margin: 0;
+  font-size: clamp(52px, 9vw, 120px);
+  line-height: .85;
+}
+
+.map-title p {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 18px;
+  background: #111;
+  color: #fff742;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.map-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr 230px;
+  gap: 14px;
+}
+
+.venue-list,
+.tips,
+.map-box {
+  border: 4px solid #111;
+  background: rgba(255,255,255,.35);
+}
+
+.venue {
+  padding: 14px;
+  border-bottom: 3px solid #111;
+}
+
+.venue span {
+  display: inline-block;
+  background: #d9362b;
+  color: #fff;
+  border: 2px solid #111;
+  padding: 3px 8px;
+  margin-right: 6px;
+}
+
+.venue h2 {
+  display: inline;
+  font-size: 26px;
+}
+
+.venue p {
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.map-box {
+  position: relative;
+  min-height: 620px;
+  overflow: hidden;
+  background:
+    linear-gradient(35deg, transparent 48%, #111 49%, #111 51%, transparent 52%),
+    linear-gradient(-22deg, transparent 48%, #111 49%, #111 51%, transparent 52%),
+    linear-gradient(80deg, transparent 48%, rgba(0,0,0,.25) 49%, rgba(0,0,0,.25) 51%, transparent 52%),
+    #fff6d8;
+}
+
+.label {
+  position: absolute;
+  background: #fff742;
+  border: 3px solid #111;
+  padding: 6px 12px;
+  font-size: 25px;
+  z-index: 3;
+}
+
+.shibuya { right: 18%; bottom: 28%; }
+.shimokita { left: 10%; top: 25%; }
+.koenji { left: 38%; top: 12%; }
+.asagaya { left: 48%; top: 38%; }
+.roppongi { right: 10%; top: 12%; }
+
+.pin {
+  position: absolute;
+  background: #d9362b;
+  color: #fff;
+  border: 3px solid #111;
+  padding: 7px 11px;
+  font-size: 25px;
+  z-index: 4;
+}
+
+.p1 { right: 28%; bottom: 18%; }
+.p2 { left: 20%; top: 38%; }
+.p3 { right: 38%; bottom: 34%; }
+.p4 { left: 46%; top: 28%; }
+.p5 { left: 55%; top: 50%; }
+
+.road {
+  position: absolute;
+  background: #111;
+  height: 9px;
+  transform-origin: left center;
+}
+
+.r1 { width: 52%; left: 20%; top: 45%; transform: rotate(35deg); }
+.r2 { width: 48%; left: 45%; top: 64%; transform: rotate(-55deg); }
+.r3 { width: 35%; left: 8%; top: 55%; transform: rotate(-28deg); }
+.r4 { width: 42%; left: 50%; top: 30%; transform: rotate(78deg); }
+
+.map-note {
+  position: absolute;
+  left: 26px;
+  bottom: 26px;
+  background: #111;
+  color: #fff742;
+  padding: 18px;
+  z-index: 5;
+}
+
+.map-note strong {
+  font-size: 28px;
+}
+
+.map-note p {
+  font-family: "Courier New", monospace;
+  color: white;
+  font-size: 13px;
+}
+
+.tips h2 {
+  padding: 14px;
+  margin: 0;
+  border-bottom: 3px solid #111;
+  font-size: 25px;
+}
+
+.tips div {
+  padding: 18px;
+  border-bottom: 3px solid #111;
+}
+
+.tips strong {
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
+.tips p {
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+}
+
+.map-footer {
+  margin-top: 14px;
+  padding: 12px;
+  background: #111;
+  color: #fff742;
+  text-align: center;
+  font-size: 25px;
+}
+
+@media(max-width:900px) {
+  .map-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .map-box {
+    min-height: 520px;
+  }
+
+  .venue-list,
+  .tips {
+    display: none;
+  }
+}
+</style>
