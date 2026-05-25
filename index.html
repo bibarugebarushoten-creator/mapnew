@@ -6,34 +6,43 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    .ofgf-map {
+    .map-window {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 10;
-      overflow: hidden;
+      overflow: auto;
       border: 3px solid #111;
+      box-shadow: 8px 8px 0 #111;
+      cursor: grab;
+      background: #fff6c7;
+    }
+
+    .map-window.dragging {
+      cursor: grabbing;
+      user-select: none;
+    }
+
+    .map-world {
+      position: relative;
+      width: 1350px;
+      height: 850px;
+      overflow: hidden;
       background:
-        radial-gradient(circle at 20% 25%, rgba(255, 216, 77, .35), transparent 18%),
-        radial-gradient(circle at 70% 65%, rgba(255, 80, 65, .22), transparent 20%),
+        radial-gradient(circle at 20% 25%, rgba(255,216,77,.35), transparent 18%),
+        radial-gradient(circle at 70% 65%, rgba(255,80,65,.20), transparent 20%),
         linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px),
         #fff6c7;
       background-size: auto, auto, 54px 54px, 54px 54px;
-      box-shadow: 8px 8px 0 #111;
+      transform-origin: top left;
+      transition: transform .3s ease;
     }
 
-    .map-inner {
-      position: absolute;
-      inset: 0;
-      transform-origin: center center;
-      transition: transform .35s ease;
+    .map-window.zoomed .map-world {
+      transform: scale(1.25);
     }
 
-    .ofgf-map.zoomed .map-inner {
-      transform: scale(1.28);
-    }
-
-    .ofgf-map::before {
+    .map-world::before {
       content: "";
       position: absolute;
       inset: 0;
@@ -41,18 +50,18 @@
       background-size: 12px 12px;
       opacity: .08;
       pointer-events: none;
-      z-index: 1;
     }
 
     .title {
-      position: absolute;
-      top: 22px;
-      left: 24px;
-      z-index: 30;
+      position: sticky;
+      top: 20px;
+      left: 20px;
+      z-index: 50;
+      width: fit-content;
       background: #111;
       color: #ffd84d;
       padding: 10px 16px;
-      font-size: clamp(22px, 4vw, 42px);
+      font-size: 36px;
       font-weight: 900;
       letter-spacing: -2px;
       transform: rotate(-2deg);
@@ -60,13 +69,14 @@
     }
 
     .map-controls {
-      position: absolute;
-      left: 24px;
-      bottom: 24px;
-      z-index: 40;
+      position: sticky;
+      left: 20px;
+      bottom: 20px;
+      z-index: 60;
       display: flex;
       gap: 8px;
-      flex-wrap: wrap;
+      width: fit-content;
+      padding: 0 0 20px 20px;
     }
 
     .map-controls button,
@@ -86,24 +96,14 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       color: rgba(0,0,0,.36);
-      font-size: clamp(13px, 1.8vw, 20px);
+      font-size: 20px;
       pointer-events: none;
     }
 
-    .diy { top: 25%; left: 10%; transform: rotate(-4deg); }
-    .clubs { top: 40%; right: 7%; transform: rotate(3deg); }
-    .heart { bottom: 21%; left: 39%; transform: rotate(-1deg); }
-
-    .route {
-      position: absolute;
-      border-top: 4px dashed rgba(0,0,0,.55);
-      transform-origin: left center;
-      pointer-events: none;
-    }
-
-    .r1 { width: 210px; left: 24%; top: 35%; transform: rotate(8deg); }
-    .r2 { width: 250px; left: 31%; top: 48%; transform: rotate(42deg); }
-    .r3 { width: 180px; left: 57%; top: 58%; transform: rotate(-8deg); }
+    .diy { top: 210px; left: 130px; transform: rotate(-4deg); }
+    .clubs { top: 330px; left: 930px; transform: rotate(3deg); }
+    .heart { top: 560px; left: 530px; transform: rotate(-1deg); }
+    .south { top: 720px; left: 660px; transform: rotate(2deg); }
 
     .area {
       position: absolute;
@@ -117,7 +117,7 @@
 
     .star {
       display: block;
-      font-size: clamp(36px, 5vw, 62px);
+      font-size: 56px;
       line-height: .8;
       color: #111;
       text-shadow: 3px 3px 0 #ffd84d, -2px -2px 0 #fff;
@@ -138,25 +138,27 @@
       border: 2px solid #111;
       padding: 7px 12px;
       font-weight: 900;
-      font-size: clamp(12px, 1.6vw, 17px);
+      font-size: 17px;
       box-shadow: 4px 4px 0 #111;
       white-space: nowrap;
     }
 
-    .shimokita .tag {
+    .shimokita .tag,
+    .yokohama .tag {
       background: #ffd84d;
     }
 
     .panel {
-      position: absolute;
+      position: sticky;
       top: 24px;
-      right: 24px;
+      float: right;
+      margin: 24px 24px 0 0;
       width: min(340px, calc(100% - 48px));
       background: white;
       border: 3px solid #111;
       box-shadow: 7px 7px 0 #111;
       padding: 18px;
-      z-index: 50;
+      z-index: 100;
       transform: rotate(1deg);
     }
 
@@ -204,100 +206,44 @@
       position: absolute;
       color: rgba(0,0,0,.55);
       font-weight: 900;
-      font-size: 22px;
+      font-size: 24px;
       pointer-events: none;
     }
 
-    .s1 { left: 16%; top: 61%; transform: rotate(-18deg); }
-    .s2 { left: 78%; top: 30%; transform: rotate(12deg); }
-    .s3 { left: 67%; top: 78%; transform: rotate(-9deg); }
+    .s1 { left: 230px; top: 530px; transform: rotate(-18deg); }
+    .s2 { left: 1040px; top: 270px; transform: rotate(12deg); }
+    .s3 { left: 820px; top: 690px; transform: rotate(-9deg); }
 
     @media (max-width: 700px) {
-      .ofgf-map {
+      .map-window {
         aspect-ratio: 9 / 13;
+      }
+
+      .map-world {
+        width: 1150px;
+        height: 850px;
       }
 
       .title {
         font-size: 24px;
-        top: 16px;
-        left: 16px;
       }
 
       .panel {
-        top: 86px;
-        right: 14px;
-        left: 14px;
-        width: auto;
-      }
-
-      .map-controls {
-        left: 14px;
-        bottom: 14px;
-      }
-
-      .r1, .r2, .r3 {
-        display: none;
+        width: 280px;
       }
 
       .tag {
-        font-size: 12px;
+        font-size: 13px;
         padding: 5px 8px;
+      }
+
+      .star {
+        font-size: 48px;
       }
     }
   </style>
 
-  <div class="ofgf-map" id="ofgfMap">
-    <div class="title">TOKYO SCENE MAP</div>
-
-    <div class="map-controls">
-      <button onclick="zoomMap()">Zoom in</button>
-      <button onclick="resetZoom()">Reset</button>
-    </div>
-
-    <div class="map-inner">
-      <div class="scene-label diy">DIY / Punk Scene</div>
-      <div class="scene-label clubs">Clubs and Parties</div>
-      <div class="scene-label heart">Heart of the Live Scene</div>
-
-      <div class="route r1"></div>
-      <div class="route r2"></div>
-      <div class="route r3"></div>
-
-      <div class="scribble s1">////</div>
-      <div class="scribble s2">★ ★</div>
-      <div class="scribble s3">zzz</div>
-
-      <button class="area shimokita active" style="left:29%; top:63%;" onclick="showArea('shimokita', this)">
-        <span class="star">★</span>
-        <span class="tag">Shimokitazawa</span>
-      </button>
-
-      <button class="area" style="left:25%; top:36%;" onclick="showArea('koenji', this)">
-        <span class="star">★</span>
-        <span class="tag">Koenji</span>
-      </button>
-
-      <button class="area" style="left:37%; top:32%;" onclick="showArea('asagaya', this)">
-        <span class="star">★</span>
-        <span class="tag">Asagaya</span>
-      </button>
-
-      <button class="area" style="left:49%; top:38%;" onclick="showArea('shinjuku', this)">
-        <span class="star">★</span>
-        <span class="tag">Shinjuku</span>
-      </button>
-
-      <button class="area" style="left:57%; top:59%;" onclick="showArea('shibuya', this)">
-        <span class="star">★</span>
-        <span class="tag">Shibuya</span>
-      </button>
-
-      <button class="area" style="left:70%; top:55%;" onclick="showArea('roppongi', this)">
-        <span class="star">★</span>
-        <span class="tag">Roppongi</span>
-      </button>
-    </div>
-
+  <div class="map-window" id="mapWindow">
     <div class="panel" id="infoPanel">
       <button class="close" onclick="hideCard()">×</button>
       <h3 id="areaTitle">Shimokitazawa</h3>
@@ -312,6 +258,59 @@
         <button id="nextBtn" onclick="showVenues()">Next: live houses</button>
         <button id="backBtn" onclick="showOverview()" style="display:none;">Back</button>
       </div>
+    </div>
+
+    <div class="title">TOKYO SCENE MAP</div>
+
+    <div class="map-controls">
+      <button onclick="zoomMap()">Zoom in</button>
+      <button onclick="resetZoom()">Reset</button>
+    </div>
+
+    <div class="map-world">
+      <div class="scene-label diy">DIY / Punk Scene</div>
+      <div class="scene-label clubs">Clubs and Parties</div>
+      <div class="scene-label heart">Heart of the Live Scene</div>
+      <div class="scene-label south">South / Port City Scene</div>
+
+      <div class="scribble s1">////</div>
+      <div class="scribble s2">★ ★</div>
+      <div class="scribble s3">zzz</div>
+
+      <button class="area shimokita active" style="left:390px; top:535px;" onclick="showArea('shimokita', this)">
+        <span class="star">★</span>
+        <span class="tag">Shimokitazawa</span>
+      </button>
+
+      <button class="area" style="left:330px; top:310px;" onclick="showArea('koenji', this)">
+        <span class="star">★</span>
+        <span class="tag">Koenji</span>
+      </button>
+
+      <button class="area" style="left:500px; top:280px;" onclick="showArea('asagaya', this)">
+        <span class="star">★</span>
+        <span class="tag">Asagaya</span>
+      </button>
+
+      <button class="area" style="left:660px; top:350px;" onclick="showArea('shinjuku', this)">
+        <span class="star">★</span>
+        <span class="tag">Shinjuku</span>
+      </button>
+
+      <button class="area" style="left:760px; top:510px;" onclick="showArea('shibuya', this)">
+        <span class="star">★</span>
+        <span class="tag">Shibuya</span>
+      </button>
+
+      <button class="area" style="left:930px; top:470px;" onclick="showArea('roppongi', this)">
+        <span class="star">★</span>
+        <span class="tag">Roppongi</span>
+      </button>
+
+      <button class="area yokohama" style="left:690px; top:735px;" onclick="showArea('yokohama', this)">
+        <span class="star">★</span>
+        <span class="tag">Yokohama</span>
+      </button>
     </div>
   </div>
 
@@ -346,6 +345,11 @@
         title: "Roppongi",
         text: "More nightlife-focused: clubs, international crowds, parties, bars, and late-night events rather than traditional live-house culture.",
         venues: ["EX THEATER", "Bauhaus", "Abbey Road", "R3 Club Lounge"]
+      },
+      yokohama: {
+        title: "Yokohama",
+        text: "A little outside central Tokyo, but worth checking for port-city nightlife, jazz, indie shows, and relaxed weekend music wandering.",
+        venues: ["F.A.D Yokohama", "B.B. Street", "Thumbs Up", "Motion Blue Yokohama"]
       }
     };
 
@@ -395,12 +399,49 @@
     }
 
     function zoomMap() {
-      document.getElementById("ofgfMap").classList.add("zoomed");
+      document.getElementById("mapWindow").classList.add("zoomed");
     }
 
     function resetZoom() {
-      document.getElementById("ofgfMap").classList.remove("zoomed");
+      document.getElementById("mapWindow").classList.remove("zoomed");
     }
+
+    const mapWindow = document.getElementById("mapWindow");
+    let isDown = false;
+    let startX;
+    let startY;
+    let scrollLeft;
+    let scrollTop;
+
+    mapWindow.addEventListener("mousedown", function(e) {
+      isDown = true;
+      mapWindow.classList.add("dragging");
+      startX = e.pageX - mapWindow.offsetLeft;
+      startY = e.pageY - mapWindow.offsetTop;
+      scrollLeft = mapWindow.scrollLeft;
+      scrollTop = mapWindow.scrollTop;
+    });
+
+    mapWindow.addEventListener("mouseleave", function() {
+      isDown = false;
+      mapWindow.classList.remove("dragging");
+    });
+
+    mapWindow.addEventListener("mouseup", function() {
+      isDown = false;
+      mapWindow.classList.remove("dragging");
+    });
+
+    mapWindow.addEventListener("mousemove", function(e) {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - mapWindow.offsetLeft;
+      const y = e.pageY - mapWindow.offsetTop;
+      const walkX = (x - startX) * 1.2;
+      const walkY = (y - startY) * 1.2;
+      mapWindow.scrollLeft = scrollLeft - walkX;
+      mapWindow.scrollTop = scrollTop - walkY;
+    });
 
     showOverview();
   </script>
