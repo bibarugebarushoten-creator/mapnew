@@ -22,25 +22,35 @@
       box-shadow: 8px 8px 0 #111;
     }
 
+    .map-inner {
+      position: absolute;
+      inset: 0;
+      transform-origin: center center;
+      transition: transform .35s ease;
+    }
+
+    .ofgf-map.zoomed .map-inner {
+      transform: scale(1.28);
+    }
+
     .ofgf-map::before {
       content: "";
       position: absolute;
       inset: 0;
-      background-image:
-        radial-gradient(#111 1px, transparent 1px);
+      background-image: radial-gradient(#111 1px, transparent 1px);
       background-size: 12px 12px;
       opacity: .08;
       pointer-events: none;
+      z-index: 1;
     }
 
     .title {
       position: absolute;
       top: 22px;
       left: 24px;
-      z-index: 5;
+      z-index: 30;
       background: #111;
       color: #ffd84d;
-      border: 3px solid #111;
       padding: 10px 16px;
       font-size: clamp(22px, 4vw, 42px);
       font-weight: 900;
@@ -49,16 +59,25 @@
       box-shadow: 6px 6px 0 #ffd84d;
     }
 
-    .subtitle {
+    .map-controls {
       position: absolute;
-      top: 88px;
-      left: 34px;
-      z-index: 5;
-      background: white;
+      left: 24px;
+      bottom: 24px;
+      z-index: 40;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .map-controls button,
+    .panel button {
+      background: #ffd84d;
       border: 2px solid #111;
-      padding: 6px 10px;
+      color: #111;
       font-weight: 900;
-      transform: rotate(1deg);
+      padding: 8px 12px;
+      cursor: pointer;
+      box-shadow: 3px 3px 0 #111;
     }
 
     .scene-label {
@@ -101,9 +120,7 @@
       font-size: clamp(36px, 5vw, 62px);
       line-height: .8;
       color: #111;
-      text-shadow:
-        3px 3px 0 #ffd84d,
-        -2px -2px 0 #fff;
+      text-shadow: 3px 3px 0 #ffd84d, -2px -2px 0 #fff;
       transition: transform .15s ease;
     }
 
@@ -111,9 +128,7 @@
     .area.active .star {
       transform: scale(1.18) rotate(12deg);
       color: #ffd84d;
-      text-shadow:
-        3px 3px 0 #111,
-        -2px -2px 0 #fff;
+      text-shadow: 3px 3px 0 #111, -2px -2px 0 #fff;
     }
 
     .tag {
@@ -122,7 +137,6 @@
       background: white;
       border: 2px solid #111;
       padding: 7px 12px;
-      border-radius: 2px;
       font-weight: 900;
       font-size: clamp(12px, 1.6vw, 17px);
       box-shadow: 4px 4px 0 #111;
@@ -133,20 +147,20 @@
       background: #ffd84d;
     }
 
-    .info {
+    .panel {
       position: absolute;
+      top: 24px;
       right: 24px;
-      bottom: 24px;
       width: min(340px, calc(100% - 48px));
       background: white;
       border: 3px solid #111;
       box-shadow: 7px 7px 0 #111;
       padding: 18px;
-      z-index: 20;
-      transform: rotate(-1deg);
+      z-index: 50;
+      transform: rotate(1deg);
     }
 
-    .info h3 {
+    .panel h3 {
       margin: 0 0 8px;
       font-size: 26px;
       font-weight: 900;
@@ -155,32 +169,35 @@
       padding: 2px 8px;
     }
 
-    .info p {
-      margin: 0 0 12px;
+    .panel p,
+    .panel li {
       font-size: 15px;
       line-height: 1.45;
     }
 
-    .info a {
-      display: inline-block;
-      color: #ffd84d;
-      background: #111;
-      border: 2px solid #111;
-      padding: 8px 12px;
-      font-weight: 900;
-      text-decoration: none;
-      box-shadow: 3px 3px 0 #ffd84d;
+    .panel ul {
+      margin: 8px 0 14px;
+      padding-left: 18px;
+    }
+
+    .panel-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
     }
 
     .close {
       position: absolute;
       top: 8px;
       right: 10px;
-      background: transparent;
-      border: 0;
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
       font-size: 22px;
       font-weight: 900;
       cursor: pointer;
+      padding: 0 !important;
     }
 
     .scribble {
@@ -201,87 +218,100 @@
       }
 
       .title {
-        font-size: 26px;
+        font-size: 24px;
+        top: 16px;
+        left: 16px;
       }
 
-      .subtitle {
-        top: 76px;
-        font-size: 12px;
+      .panel {
+        top: 86px;
+        right: 14px;
+        left: 14px;
+        width: auto;
+      }
+
+      .map-controls {
+        left: 14px;
+        bottom: 14px;
       }
 
       .r1, .r2, .r3 {
         display: none;
       }
 
-      .diy { top: 20%; left: 7%; }
-      .clubs { top: 44%; right: 2%; }
-      .heart { bottom: 34%; left: 19%; }
-
       .tag {
         font-size: 12px;
         padding: 5px 8px;
       }
-
-      .info {
-        left: 16px;
-        right: 16px;
-        bottom: 16px;
-        width: auto;
-      }
     }
   </style>
 
-  <div class="ofgf-map">
+  <div class="ofgf-map" id="ofgfMap">
     <div class="title">TOKYO SCENE MAP</div>
-    <div class="subtitle">click a star to explore</div>
 
-    <div class="scene-label diy">DIY / Punk Scene</div>
-    <div class="scene-label clubs">Clubs and Parties</div>
-    <div class="scene-label heart">Heart of the Live Scene</div>
+    <div class="map-controls">
+      <button onclick="zoomMap()">Zoom in</button>
+      <button onclick="resetZoom()">Reset</button>
+    </div>
 
-    <div class="route r1"></div>
-    <div class="route r2"></div>
-    <div class="route r3"></div>
+    <div class="map-inner">
+      <div class="scene-label diy">DIY / Punk Scene</div>
+      <div class="scene-label clubs">Clubs and Parties</div>
+      <div class="scene-label heart">Heart of the Live Scene</div>
 
-    <div class="scribble s1">////</div>
-    <div class="scribble s2">★ ★</div>
-    <div class="scribble s3">zzz</div>
+      <div class="route r1"></div>
+      <div class="route r2"></div>
+      <div class="route r3"></div>
 
-    <button class="area shimokita active" style="left:29%; top:63%;" onclick="showArea('shimokita', this)">
-      <span class="star">★</span>
-      <span class="tag">Shimokitazawa</span>
-    </button>
+      <div class="scribble s1">////</div>
+      <div class="scribble s2">★ ★</div>
+      <div class="scribble s3">zzz</div>
 
-    <button class="area" style="left:25%; top:36%;" onclick="showArea('koenji', this)">
-      <span class="star">★</span>
-      <span class="tag">Koenji</span>
-    </button>
+      <button class="area shimokita active" style="left:29%; top:63%;" onclick="showArea('shimokita', this)">
+        <span class="star">★</span>
+        <span class="tag">Shimokitazawa</span>
+      </button>
 
-    <button class="area" style="left:37%; top:32%;" onclick="showArea('asagaya', this)">
-      <span class="star">★</span>
-      <span class="tag">Asagaya</span>
-    </button>
+      <button class="area" style="left:25%; top:36%;" onclick="showArea('koenji', this)">
+        <span class="star">★</span>
+        <span class="tag">Koenji</span>
+      </button>
 
-    <button class="area" style="left:49%; top:38%;" onclick="showArea('shinjuku', this)">
-      <span class="star">★</span>
-      <span class="tag">Shinjuku</span>
-    </button>
+      <button class="area" style="left:37%; top:32%;" onclick="showArea('asagaya', this)">
+        <span class="star">★</span>
+        <span class="tag">Asagaya</span>
+      </button>
 
-    <button class="area" style="left:57%; top:59%;" onclick="showArea('shibuya', this)">
-      <span class="star">★</span>
-      <span class="tag">Shibuya</span>
-    </button>
+      <button class="area" style="left:49%; top:38%;" onclick="showArea('shinjuku', this)">
+        <span class="star">★</span>
+        <span class="tag">Shinjuku</span>
+      </button>
 
-    <button class="area" style="left:70%; top:55%;" onclick="showArea('roppongi', this)">
-      <span class="star">★</span>
-      <span class="tag">Roppongi</span>
-    </button>
+      <button class="area" style="left:57%; top:59%;" onclick="showArea('shibuya', this)">
+        <span class="star">★</span>
+        <span class="tag">Shibuya</span>
+      </button>
 
-    <div class="info" id="infoCard">
+      <button class="area" style="left:70%; top:55%;" onclick="showArea('roppongi', this)">
+        <span class="star">★</span>
+        <span class="tag">Roppongi</span>
+      </button>
+    </div>
+
+    <div class="panel" id="infoPanel">
       <button class="close" onclick="hideCard()">×</button>
       <h3 id="areaTitle">Shimokitazawa</h3>
-      <p id="areaText">The heart of Tokyo’s live-house scene: indie bands, small venues, record shops, late trains, and lots of music fans wandering between shows.</p>
-      <a id="areaLink" href="#">Read the guide</a>
+      <p id="areaText"></p>
+
+      <div id="venuePage" style="display:none;">
+        <strong>Live houses to check:</strong>
+        <ul id="venueList"></ul>
+      </div>
+
+      <div class="panel-actions">
+        <button id="nextBtn" onclick="showVenues()">Next: live houses</button>
+        <button id="backBtn" onclick="showOverview()" style="display:none;">Back</button>
+      </div>
     </div>
   </div>
 
@@ -290,48 +320,88 @@
       shimokita: {
         title: "Shimokitazawa",
         text: "The heart of Tokyo’s live-house scene: indie bands, small venues, record shops, late trains, and lots of music fans wandering between shows.",
-        link: "#"
+        venues: ["BASEMENTBAR", "SHELTER", "THREE", "DaisyBar"]
       },
       koenji: {
         title: "Koenji",
         text: "DIY, punk, noise, vintage shops, tiny bars, and underground energy. A great area for scrappier, weirder, more local-feeling shows.",
-        link: "#"
+        venues: ["HIGH", "JIROKICHI", "ShowBoat", "UFO CLUB"]
       },
       asagaya: {
         title: "Asagaya",
         text: "A community-heavy pocket of the west Tokyo scene, with intimate venues, local regulars, and artsy late-night energy.",
-        link: "#"
+        venues: ["GAMUSO", "Yellow Vision", "Asagaya Loft A"]
       },
       shinjuku: {
         title: "Shinjuku",
         text: "Dense, chaotic, and full of venues. Good for discovering everything from rock and idol events to experimental live-house nights.",
-        link: "#"
+        venues: ["LOFT", "MARZ", "SAMURAI", "Motion"]
       },
       shibuya: {
         title: "Shibuya",
         text: "A central hub for bigger indie shows, club nights, touring acts, and polished music events. Easy to access and always active.",
-        link: "#"
+        venues: ["WWW", "WWW X", "Spotify O-nest", "Club Quattro"]
       },
       roppongi: {
         title: "Roppongi",
         text: "More nightlife-focused: clubs, international crowds, parties, bars, and late-night events rather than traditional live-house culture.",
-        link: "#"
+        venues: ["EX THEATER", "Bauhaus", "Abbey Road", "R3 Club Lounge"]
       }
     };
 
+    let currentArea = "shimokita";
+
     function showArea(area, button) {
-      document.getElementById("areaTitle").textContent = areaInfo[area].title;
-      document.getElementById("areaText").textContent = areaInfo[area].text;
-      document.getElementById("areaLink").href = areaInfo[area].link;
-      document.getElementById("infoCard").style.display = "block";
+      currentArea = area;
+      showOverview();
 
       document.querySelectorAll(".area").forEach(el => el.classList.remove("active"));
       button.classList.add("active");
+
+      document.getElementById("infoPanel").style.display = "block";
+    }
+
+    function showOverview() {
+      const area = areaInfo[currentArea];
+
+      document.getElementById("areaTitle").textContent = area.title;
+      document.getElementById("areaText").textContent = area.text;
+
+      document.getElementById("venuePage").style.display = "none";
+      document.getElementById("nextBtn").style.display = "inline-block";
+      document.getElementById("backBtn").style.display = "none";
+    }
+
+    function showVenues() {
+      const area = areaInfo[currentArea];
+      const venueList = document.getElementById("venueList");
+
+      venueList.innerHTML = "";
+      area.venues.forEach(function(venue) {
+        const li = document.createElement("li");
+        li.textContent = venue;
+        venueList.appendChild(li);
+      });
+
+      document.getElementById("areaText").textContent = "A few venues and nightlife spots connected to this area:";
+      document.getElementById("venuePage").style.display = "block";
+      document.getElementById("nextBtn").style.display = "none";
+      document.getElementById("backBtn").style.display = "inline-block";
     }
 
     function hideCard() {
-      document.getElementById("infoCard").style.display = "none";
+      document.getElementById("infoPanel").style.display = "none";
       document.querySelectorAll(".area").forEach(el => el.classList.remove("active"));
     }
+
+    function zoomMap() {
+      document.getElementById("ofgfMap").classList.add("zoomed");
+    }
+
+    function resetZoom() {
+      document.getElementById("ofgfMap").classList.remove("zoomed");
+    }
+
+    showOverview();
   </script>
 </div>
