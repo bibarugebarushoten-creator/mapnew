@@ -3,40 +3,43 @@
   <div class="map-title">
     <div class="stars">✦✧★✩☆★✧✦</div>
     <h1>LIVE HOUSE MAP</h1>
-    <p>click a neighborhood to explore</p>
+    <p>click a place to explore</p>
   </div>
 
   <div class="map-layout">
 
     <div class="info-panel" id="infoPanel">
-      <span>START HERE</span>
-      <h2>Choose a spot</h2>
-      <p>Click Shibuya, Shimokitazawa, Koenji, Asagaya, or Roppongi to see the livehouse vibe.</p>
-      <a href="#">READ GUIDE →</a>
+      <span>EXPLORE THE SCENE</span>
+      <h2>Shimokitazawa</h2>
+      <h3>Heart of the live scene</h3>
+      <p>Indie bands, basement venues, record stores, guitar music, and new discoveries every night.</p>
+      <h3>Perfect for</h3>
+      <p>Finding new bands, meeting new people, and getting lost in the city.</p>
+      <a href="#">VIEW LIVEHOUSE GUIDE →</a>
     </div>
 
     <div class="map-box">
 
-      <button class="label shibuya" onclick="showArea('shibuya')">SHIBUYA</button>
-      <button class="label shimokita" onclick="showArea('shimokita')">SHIMOKITA</button>
-      <button class="label koenji" onclick="showArea('koenji')">KOENJI</button>
-      <button class="label asagaya" onclick="showArea('asagaya')">ASAGAYA</button>
-      <button class="label roppongi" onclick="showArea('roppongi')">ROPPONGI</button>
+      <div class="bg-text diy">DIY/PUNK SCENE</div>
+      <div class="bg-text clubs">CLUBS AND PARTIES</div>
+      <div class="bg-text heart">HEART OF THE LIVE SCENE</div>
 
-      <button class="pin p1" onclick="showArea('shibuya')">1</button>
-      <button class="pin p2" onclick="showArea('shimokita')">2</button>
-      <button class="pin p3" onclick="showArea('koenji')">3</button>
-      <button class="pin p4" onclick="showArea('asagaya')">4</button>
-      <button class="pin p5" onclick="showArea('roppongi')">5</button>
+      <button class="place koenji" onclick="showArea('koenji')">Koenji</button>
+      <button class="place asagaya" onclick="showArea('asagaya')">Asagaya</button>
+      <button class="place shinjuku" onclick="showArea('shinjuku')">Shinjuku</button>
+      <button class="place shimokita active" onclick="showArea('shimokita')">Shimokitazawa</button>
+      <button class="place shibuya" onclick="showArea('shibuya')">Shibuya</button>
+      <button class="place roppongi" onclick="showArea('roppongi')">Roppongi</button>
 
-      <div class="road r1"></div>
-      <div class="road r2"></div>
-      <div class="road r3"></div>
-      <div class="road r4"></div>
-
-      <div class="map-note">
-        <strong>SUPPORT LIVE MUSIC</strong>
-      </div>
+      <div class="star s1">★</div>
+      <div class="star s2">★</div>
+      <div class="star s3">★</div>
+      <div class="star s4">★</div>
+      <div class="star s5">★</div>
+      <div class="spark sp1">✧</div>
+      <div class="spark sp2">✧</div>
+      <div class="spark sp3">✧</div>
+      <div class="spark sp4">✧</div>
 
     </div>
 
@@ -50,34 +53,52 @@
 
 <script>
 const areaInfo = {
-  shibuya: {
-    tag: "01 / SHIBUYA",
-    title: "Big-city livehouse energy",
-    text: "Best for easy access, bigger venues, mixed crowds, late nights, and shows that feel close to Tokyo nightlife.",
-    link: "#"
-  },
   shimokita: {
-    tag: "02 / SHIMOKITAZAWA",
-    title: "Indie band central",
-    text: "Best for guitar bands, basement venues, small rooms, record-store energy, and discovering bands before they get bigger.",
+    tag: "EXPLORE THE SCENE",
+    title: "Shimokitazawa",
+    vibe: "Heart of the live scene",
+    text: "Indie bands, basement venues, record stores, guitar music, and new discoveries every night.",
+    perfect: "Finding new bands, meeting new people, and getting lost in the city.",
     link: "#"
   },
   koenji: {
-    tag: "03 / KOENJI",
-    title: "Punk, weird, underground",
-    text: "Best for rougher edges, experimental shows, punk energy, art crowds, and the less polished side of Tokyo music.",
+    tag: "DIY/PUNK SCENE",
+    title: "Koenji",
+    vibe: "Weird, loud, and underground",
+    text: "Punk, noise, experimental music, tiny venues, secondhand shops, and rough-around-the-edges creative energy.",
+    perfect: "People who want the less polished side of Tokyo music.",
     link: "#"
   },
   asagaya: {
-    tag: "04 / ASAGAYA",
-    title: "DIY community shows",
-    text: "Best for intimate rooms, international-friendly spaces, local scenes, and shows that feel like friend groups colliding.",
+    tag: "DIY/PUNK SCENE",
+    title: "Asagaya",
+    vibe: "Small rooms and community shows",
+    text: "DIY spaces, friendly venues, local musicians, international scenes, and intimate shows that feel personal.",
+    perfect: "Meeting people and finding small events with real community energy.",
+    link: "#"
+  },
+  shinjuku: {
+    tag: "DIY/PUNK SCENE",
+    title: "Shinjuku",
+    vibe: "Dense, chaotic, classic Tokyo",
+    text: "A mix of older livehouses, rock venues, nightlife, tiny bars, and shows tucked inside busy streets.",
+    perfect: "A full Tokyo night with music, food, bars, and wandering.",
+    link: "#"
+  },
+  shibuya: {
+    tag: "HEART OF THE LIVE SCENE",
+    title: "Shibuya",
+    vibe: "Big city shows and easy access",
+    text: "Bigger venues, indie showcases, electronic nights, idol-adjacent events, and shows near the center of Tokyo nightlife.",
+    perfect: "First-timers who want convenience and lots of options.",
     link: "#"
   },
   roppongi: {
-    tag: "05 / ROPPONGI",
-    title: "International nightlife",
-    text: "Best for international shows, bars, mixed-language crowds, and nights that lean more social than underground.",
+    tag: "CLUBS AND PARTIES",
+    title: "Roppongi",
+    vibe: "International nightlife",
+    text: "Mixed-language crowds, bars, clubs, parties, international events, and nights that lean social.",
+    perfect: "Going out with friends and finding music around nightlife.",
     link: "#"
   }
 };
@@ -89,17 +110,15 @@ function showArea(area) {
   panel.innerHTML = `
     <span>${data.tag}</span>
     <h2>${data.title}</h2>
+    <h3>${data.vibe}</h3>
     <p>${data.text}</p>
-    <a href="${data.link}">READ GUIDE →</a>
+    <h3>Perfect for</h3>
+    <p>${data.perfect}</p>
+    <a href="${data.link}">VIEW LIVEHOUSE GUIDE →</a>
   `;
 
-  document.querySelectorAll(".label, .pin").forEach(el => {
-    el.classList.remove("active");
-  });
-
-  document.querySelectorAll("." + area).forEach(el => {
-    el.classList.add("active");
-  });
+  document.querySelectorAll(".place").forEach(el => el.classList.remove("active"));
+  document.querySelector("." + area).classList.add("active");
 }
 </script>
 
@@ -124,36 +143,36 @@ body {
 }
 
 .stars {
-  font-size: 46px;
+  font-size: 44px;
   letter-spacing: -8px;
 }
 
 .map-title h1 {
   margin: 0;
-  font-size: clamp(50px, 8vw, 110px);
+  font-size: clamp(52px, 8vw, 110px);
   line-height: .85;
 }
 
 .map-title p {
   display: inline-block;
   margin-top: 10px;
-  padding: 6px 18px;
+  padding: 7px 18px;
   background: #111;
   color: #fff742;
-  font-size: 18px;
+  font-size: 16px;
   letter-spacing: 2px;
 }
 
 .map-layout {
   display: grid;
-  grid-template-columns: 310px 1fr;
+  grid-template-columns: 320px 1fr;
   gap: 16px;
 }
 
 .info-panel {
   border: 4px solid #111;
   background: rgba(255,255,255,.55);
-  padding: 22px;
+  padding: 24px;
   box-shadow: 8px 8px 0 #111;
 }
 
@@ -163,13 +182,19 @@ body {
   color: #fff742;
   padding: 6px 10px;
   font-size: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .info-panel h2 {
-  margin: 0;
-  font-size: 36px;
+  margin: 0 0 18px;
+  font-size: 42px;
   line-height: .9;
+}
+
+.info-panel h3 {
+  margin: 22px 0 8px;
+  font-size: 19px;
+  text-transform: uppercase;
 }
 
 .info-panel p {
@@ -180,13 +205,13 @@ body {
 
 .info-panel a {
   display: inline-block;
-  margin-top: 12px;
-  padding: 10px 14px;
-  background: #fff742;
-  color: #111;
+  margin-top: 14px;
+  padding: 11px 14px;
+  background: #111;
+  color: #fff742;
   border: 2px solid #111;
   text-decoration: none;
-  box-shadow: 4px 4px 0 #111;
+  box-shadow: 4px 4px 0 #d9362b;
 }
 
 .map-box {
@@ -195,78 +220,96 @@ body {
   border: 4px solid #111;
   overflow: hidden;
   background:
-    linear-gradient(35deg, transparent 48%, #111 49%, #111 51%, transparent 52%),
-    linear-gradient(-22deg, transparent 48%, #111 49%, #111 51%, transparent 52%),
-    linear-gradient(80deg, transparent 48%, rgba(0,0,0,.25) 49%, rgba(0,0,0,.25) 51%, transparent 52%),
-    #fff6d8;
+    linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px),
+    radial-gradient(circle at 32% 55%, rgba(255,70,70,.24), transparent 22%),
+    radial-gradient(circle at 62% 45%, rgba(80,160,255,.22), transparent 26%),
+    radial-gradient(circle at 70% 20%, rgba(120,70,255,.18), transparent 28%),
+    #151226;
+  background-size:
+    72px 72px,
+    72px 72px,
+    auto,
+    auto,
+    auto,
+    auto;
 }
 
-.label,
-.pin {
-  cursor: pointer;
-  font-family: "Arial Black", Impact, sans-serif;
-}
-
-.label {
+.bg-text {
   position: absolute;
-  background: #fff742;
-  border: 3px solid #111;
-  padding: 6px 12px;
-  font-size: 24px;
-  z-index: 3;
+  color: rgba(255,255,255,.35);
+  font-size: 20px;
+  letter-spacing: 1px;
+  z-index: 1;
 }
 
-.label:hover,
-.pin:hover,
-.active {
-  background: #d9362b !important;
-  color: white !important;
+.diy {
+  left: 10%;
+  top: 12%;
 }
 
-.shibuya { right: 18%; bottom: 28%; }
-.shimokita { left: 10%; top: 25%; }
-.koenji { left: 38%; top: 12%; }
-.asagaya { left: 48%; top: 38%; }
-.roppongi { right: 10%; top: 12%; }
+.clubs {
+  right: 9%;
+  top: 35%;
+}
 
-.pin {
+.heart {
+  left: 42%;
+  bottom: 25%;
+}
+
+.place {
   position: absolute;
-  background: #d9362b;
-  color: #fff;
-  border: 3px solid #111;
-  padding: 7px 11px;
-  font-size: 24px;
-  z-index: 4;
-}
-
-.p1 { right: 28%; bottom: 18%; }
-.p2 { left: 20%; top: 38%; }
-.p3 { right: 38%; bottom: 34%; }
-.p4 { left: 46%; top: 28%; }
-.p5 { left: 55%; top: 50%; }
-
-.road {
-  position: absolute;
-  background: #111;
-  height: 9px;
-  transform-origin: left center;
-}
-
-.r1 { width: 52%; left: 20%; top: 45%; transform: rotate(35deg); }
-.r2 { width: 48%; left: 45%; top: 64%; transform: rotate(-55deg); }
-.r3 { width: 35%; left: 8%; top: 55%; transform: rotate(-28deg); }
-.r4 { width: 42%; left: 50%; top: 30%; transform: rotate(78deg); }
-
-.map-note {
-  position: absolute;
-  left: 26px;
-  bottom: 26px;
-  background: #111;
-  color: #fff742;
-  padding: 16px;
   z-index: 5;
-  font-size: 22px;
+  border: 0;
+  border-radius: 999px;
+  padding: 9px 18px;
+  background: linear-gradient(#fff, #d8d8d8);
+  color: #111;
+  font-family: "Arial Black", Impact, sans-serif;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(255,255,255,.28);
 }
+
+.place:hover,
+.place.active {
+  background: linear-gradient(90deg, #ffe36b, #ff5c75, #8bd8ff);
+  transform: scale(1.06);
+}
+
+.koenji { left: 18%; top: 35%; }
+.asagaya { left: 28%; top: 31%; }
+.shinjuku { left: 43%; top: 38%; }
+.shimokita { left: 15%; bottom: 31%; }
+.shibuya { left: 52%; bottom: 34%; }
+.roppongi { left: 63%; bottom: 37%; }
+
+.star {
+  position: absolute;
+  z-index: 2;
+  color: #ffe66d;
+  font-size: 42px;
+  text-shadow: 0 0 18px rgba(255,230,109,.95);
+}
+
+.s1 { left: 22%; top: 24%; }
+.s2 { left: 35%; top: 20%; }
+.s3 { left: 48%; top: 27%; }
+.s4 { left: 20%; bottom: 36%; font-size: 58px; }
+.s5 { right: 28%; bottom: 40%; }
+
+.spark {
+  position: absolute;
+  color: rgba(255,255,255,.75);
+  font-size: 34px;
+  text-shadow: 0 0 14px white;
+}
+
+.sp1 { left: 8%; top: 20%; }
+.sp2 { right: 16%; top: 20%; }
+.sp3 { left: 10%; bottom: 13%; }
+.sp4 { right: 25%; bottom: 12%; color: #6bbcff; }
 
 .map-footer {
   margin-top: 16px;
@@ -283,11 +326,20 @@ body {
   }
 
   .map-box {
-    min-height: 520px;
+    min-height: 540px;
   }
 
-  .label {
-    font-size: 16px;
+  .place {
+    font-size: 13px;
+    padding: 7px 11px;
+  }
+
+  .bg-text {
+    font-size: 13px;
+  }
+
+  .info-panel h2 {
+    font-size: 34px;
   }
 }
 </style>
