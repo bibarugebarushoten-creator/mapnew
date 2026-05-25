@@ -94,6 +94,17 @@
       box-shadow: 3px 3px 0 #111;
     }
 
+    .article-btn {
+      background: #111;
+      border: 2px solid #111;
+      color: #ffd84d;
+      font-weight: 900;
+      padding: 8px 12px;
+      box-shadow: 3px 3px 0 #ffd84d;
+      text-decoration: none;
+      display: inline-block;
+    }
+
     .scene-label {
       position: absolute;
       font-weight: 900;
@@ -319,6 +330,13 @@
         style="display:none;">
           Back
         </button>
+
+        <a id="articleBtn"
+        class="article-btn"
+        href="#"
+        target="_blank">
+          Read article
+        </a>
       </div>
     </div>
 
@@ -351,7 +369,6 @@
         <div class="scribble s2">★ ★</div>
         <div class="scribble s3">zzz</div>
 
-        <!-- SHIMOKITA -->
         <button class="area shimokita active"
         style="left:470px; top:500px;"
         onclick="showArea('shimokita', this)">
@@ -359,7 +376,6 @@
           <span class="tag">Shimokitazawa</span>
         </button>
 
-        <!-- SHIBUYA -->
         <button class="area shibuya"
         style="left:720px; top:500px;"
         onclick="showArea('shibuya', this)">
@@ -367,7 +383,6 @@
           <span class="tag">Shibuya</span>
         </button>
 
-        <!-- KOENJI -->
         <button class="area"
         style="left:330px; top:275px;"
         onclick="showArea('koenji', this)">
@@ -375,7 +390,6 @@
           <span class="tag">Koenji</span>
         </button>
 
-        <!-- ASAGAYA -->
         <button class="area"
         style="left:500px; top:250px;"
         onclick="showArea('asagaya', this)">
@@ -383,7 +397,6 @@
           <span class="tag">Asagaya</span>
         </button>
 
-        <!-- SHINJUKU -->
         <button class="area"
         style="left:660px; top:330px;"
         onclick="showArea('shinjuku', this)">
@@ -391,7 +404,6 @@
           <span class="tag">Shinjuku</span>
         </button>
 
-        <!-- ROPPONGI -->
         <button class="area"
         style="left:900px; top:435px;"
         onclick="showArea('roppongi', this)">
@@ -399,7 +411,6 @@
           <span class="tag">Roppongi</span>
         </button>
 
-        <!-- YOKOHAMA -->
         <button class="area yokohama"
         style="left:590px; top:780px;"
         onclick="showArea('yokohama', this)">
@@ -416,43 +427,50 @@
       shimokita: {
         title: "Shimokitazawa",
         text: "The heart of Tokyo’s live-house scene: indie bands, small venues, record shops, late trains, and lots of music fans wandering between shows.",
-        venues: ["BASEMENTBAR", "SHELTER", "THREE", "DaisyBar"]
+        venues: ["BASEMENTBAR", "SHELTER", "THREE", "DaisyBar"],
+        article: "#"
       },
 
       shibuya: {
         title: "Shibuya",
         text: "A central hub for bigger indie shows, club nights, touring acts, and polished music events.",
-        venues: ["WWW", "WWW X", "Spotify O-nest", "Club Quattro"]
+        venues: ["WWW", "WWW X", "Spotify O-nest", "Club Quattro"],
+        article: "#"
       },
 
       koenji: {
         title: "Koenji",
         text: "DIY, punk, noise, vintage shops, tiny bars, and underground energy.",
-        venues: ["HIGH", "JIROKICHI", "ShowBoat", "UFO CLUB"]
+        venues: ["HIGH", "JIROKICHI", "ShowBoat", "UFO CLUB"],
+        article: "#"
       },
 
       asagaya: {
         title: "Asagaya",
         text: "A community-heavy pocket of the west Tokyo scene.",
-        venues: ["GAMUSO", "Yellow Vision", "Asagaya Loft A"]
+        venues: ["GAMUSO", "Yellow Vision", "Asagaya Loft A"],
+        article: "#"
       },
 
       shinjuku: {
         title: "Shinjuku",
         text: "Dense, chaotic, and full of venues.",
-        venues: ["LOFT", "MARZ", "SAMURAI", "Motion"]
+        venues: ["LOFT", "MARZ", "SAMURAI", "Motion"],
+        article: "#"
       },
 
       roppongi: {
         title: "Roppongi",
         text: "More nightlife-focused: clubs, parties, and bars.",
-        venues: ["EX THEATER", "Bauhaus", "Abbey Road"]
+        venues: ["EX THEATER", "Bauhaus", "Abbey Road"],
+        article: "#"
       },
 
       yokohama: {
         title: "Yokohama",
         text: "A little outside central Tokyo, but worth checking for port-city nightlife.",
-        venues: ["F.A.D Yokohama", "B.B. Street", "Thumbs Up"]
+        venues: ["F.A.D Yokohama", "B.B. Street", "Thumbs Up"],
+        article: "#"
       }
     };
 
@@ -480,6 +498,9 @@
 
       document.getElementById("areaText")
       .textContent = area.text;
+
+      document.getElementById("articleBtn")
+      .href = area.article;
 
       document.getElementById("venuePage")
       .style.display = "none";
