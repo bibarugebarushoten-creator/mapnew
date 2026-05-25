@@ -1,214 +1,268 @@
-<div class="ofgf-map-wrap">
+<div class="ofgf-scene-map">
   <style>
-    .ofgf-map-wrap {
-      width: 100%;
-      max-width: 980px;
+    .ofgf-scene-map {
+      max-width: 1000px;
       margin: 0 auto;
       font-family: Arial, Helvetica, sans-serif;
-      color: #111;
     }
 
-    .scene-map {
+    .ofgf-map {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 10;
       overflow: hidden;
-      border: 2px solid #111;
+      border: 3px solid #111;
       background:
-        linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px),
-        radial-gradient(circle at 30% 65%, rgba(255, 215, 80, .22), transparent 28%),
-        radial-gradient(circle at 58% 62%, rgba(255, 40, 80, .22), transparent 25%),
-        radial-gradient(circle at 72% 38%, rgba(255, 220, 70, .13), transparent 28%),
-        #090812;
-      background-size: 70px 70px, 70px 70px, cover, cover, cover, cover;
+        radial-gradient(circle at 20% 25%, rgba(255, 216, 77, .35), transparent 18%),
+        radial-gradient(circle at 70% 65%, rgba(255, 80, 65, .22), transparent 20%),
+        linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px),
+        #fff6c7;
+      background-size: auto, auto, 54px 54px, 54px 54px;
+      box-shadow: 8px 8px 0 #111;
     }
 
-    .map-title {
+    .ofgf-map::before {
+      content: "";
       position: absolute;
-      top: 22px;
-      left: 24px;
-      background: #ffd84d;
-      border: 2px solid #111;
-      box-shadow: 5px 5px 0 #111;
-      padding: 10px 14px;
-      font-size: clamp(18px, 3vw, 34px);
-      font-weight: 900;
-      letter-spacing: -1px;
-      transform: rotate(-2deg);
-      z-index: 5;
-    }
-
-    .bg-label {
-      position: absolute;
-      color: rgba(255,255,255,.38);
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      font-size: clamp(12px, 1.8vw, 20px);
+      inset: 0;
+      background-image:
+        radial-gradient(#111 1px, transparent 1px);
+      background-size: 12px 12px;
+      opacity: .08;
       pointer-events: none;
     }
 
-    .diy { top: 18%; left: 12%; }
-    .clubs { top: 45%; right: 7%; }
-    .heart { bottom: 20%; left: 41%; }
+    .title {
+      position: absolute;
+      top: 22px;
+      left: 24px;
+      z-index: 5;
+      background: #111;
+      color: #ffd84d;
+      border: 3px solid #111;
+      padding: 10px 16px;
+      font-size: clamp(22px, 4vw, 42px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      transform: rotate(-2deg);
+      box-shadow: 6px 6px 0 #ffd84d;
+    }
+
+    .subtitle {
+      position: absolute;
+      top: 88px;
+      left: 34px;
+      z-index: 5;
+      background: white;
+      border: 2px solid #111;
+      padding: 6px 10px;
+      font-weight: 900;
+      transform: rotate(1deg);
+    }
+
+    .scene-label {
+      position: absolute;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(0,0,0,.36);
+      font-size: clamp(13px, 1.8vw, 20px);
+      pointer-events: none;
+    }
+
+    .diy { top: 25%; left: 10%; transform: rotate(-4deg); }
+    .clubs { top: 40%; right: 7%; transform: rotate(3deg); }
+    .heart { bottom: 21%; left: 39%; transform: rotate(-1deg); }
+
+    .route {
+      position: absolute;
+      border-top: 4px dashed rgba(0,0,0,.55);
+      transform-origin: left center;
+      pointer-events: none;
+    }
+
+    .r1 { width: 210px; left: 24%; top: 35%; transform: rotate(8deg); }
+    .r2 { width: 250px; left: 31%; top: 48%; transform: rotate(42deg); }
+    .r3 { width: 180px; left: 57%; top: 58%; transform: rotate(-8deg); }
 
     .area {
       position: absolute;
+      transform: translate(-50%, -50%);
       border: 0;
       background: transparent;
       cursor: pointer;
-      transform: translate(-50%, -50%);
-      z-index: 3;
+      z-index: 4;
+      text-align: center;
     }
 
     .star {
       display: block;
-      font-size: clamp(34px, 5vw, 58px);
-      color: #ffdf55;
-      text-shadow: 0 0 14px rgba(255, 221, 85, .8);
-      transition: transform .18s ease, filter .18s ease;
+      font-size: clamp(36px, 5vw, 62px);
+      line-height: .8;
+      color: #111;
+      text-shadow:
+        3px 3px 0 #ffd84d,
+        -2px -2px 0 #fff;
+      transition: transform .15s ease;
     }
 
     .area:hover .star,
     .area.active .star {
-      transform: scale(1.2) rotate(8deg);
-      filter: brightness(1.25);
+      transform: scale(1.18) rotate(12deg);
+      color: #ffd84d;
+      text-shadow:
+        3px 3px 0 #111,
+        -2px -2px 0 #fff;
     }
 
     .tag {
       display: inline-block;
-      margin-top: -4px;
-      padding: 8px 15px;
-      background: #f2f2f2;
+      margin-top: 6px;
+      background: white;
       border: 2px solid #111;
-      border-radius: 999px;
+      padding: 7px 12px;
+      border-radius: 2px;
       font-weight: 900;
-      font-size: clamp(13px, 1.7vw, 18px);
-      box-shadow: 3px 3px 0 #111;
+      font-size: clamp(12px, 1.6vw, 17px);
+      box-shadow: 4px 4px 0 #111;
       white-space: nowrap;
     }
 
     .shimokita .tag {
-      background: linear-gradient(90deg, #ffd84d, #ff5a5f, #8cc8ff);
+      background: #ffd84d;
     }
 
-    .info-card {
+    .info {
       position: absolute;
       right: 24px;
       bottom: 24px;
-      width: min(330px, calc(100% - 48px));
-      background: #fff7cf;
-      border: 2px solid #111;
-      box-shadow: 6px 6px 0 #111;
+      width: min(340px, calc(100% - 48px));
+      background: white;
+      border: 3px solid #111;
+      box-shadow: 7px 7px 0 #111;
       padding: 18px;
-      z-index: 10;
+      z-index: 20;
+      transform: rotate(-1deg);
     }
 
-    .info-card h3 {
+    .info h3 {
       margin: 0 0 8px;
-      font-size: 24px;
-      line-height: 1;
+      font-size: 26px;
+      font-weight: 900;
+      background: #ffd84d;
+      display: inline-block;
+      padding: 2px 8px;
     }
 
-    .info-card p {
+    .info p {
       margin: 0 0 12px;
       font-size: 15px;
       line-height: 1.45;
     }
 
-    .info-card a {
+    .info a {
       display: inline-block;
-      color: #111;
-      background: #ffd84d;
+      color: #ffd84d;
+      background: #111;
       border: 2px solid #111;
       padding: 8px 12px;
       font-weight: 900;
       text-decoration: none;
-      box-shadow: 3px 3px 0 #111;
+      box-shadow: 3px 3px 0 #ffd84d;
     }
 
-    .close-card {
+    .close {
       position: absolute;
       top: 8px;
       right: 10px;
-      border: 0;
       background: transparent;
+      border: 0;
       font-size: 22px;
       font-weight: 900;
       cursor: pointer;
     }
 
-    .sparkle {
+    .scribble {
       position: absolute;
-      color: rgba(255,255,255,.65);
-      font-size: 26px;
+      color: rgba(0,0,0,.55);
+      font-weight: 900;
+      font-size: 22px;
       pointer-events: none;
-      text-shadow: 0 0 10px white;
     }
 
-    .s1 { top: 24%; left: 8%; }
-    .s2 { top: 20%; right: 24%; }
-    .s3 { bottom: 16%; left: 15%; }
-    .s4 { bottom: 10%; left: 62%; }
-    .s5 { bottom: 25%; right: 14%; }
+    .s1 { left: 16%; top: 61%; transform: rotate(-18deg); }
+    .s2 { left: 78%; top: 30%; transform: rotate(12deg); }
+    .s3 { left: 67%; top: 78%; transform: rotate(-9deg); }
 
     @media (max-width: 700px) {
-      .scene-map {
+      .ofgf-map {
         aspect-ratio: 9 / 13;
       }
 
-      .map-title {
-        font-size: 22px;
+      .title {
+        font-size: 26px;
       }
 
-      .diy { top: 14%; left: 8%; }
-      .clubs { top: 43%; right: 4%; }
-      .heart { bottom: 33%; left: 25%; }
+      .subtitle {
+        top: 76px;
+        font-size: 12px;
+      }
 
-      .info-card {
+      .r1, .r2, .r3 {
+        display: none;
+      }
+
+      .diy { top: 20%; left: 7%; }
+      .clubs { top: 44%; right: 2%; }
+      .heart { bottom: 34%; left: 19%; }
+
+      .tag {
+        font-size: 12px;
+        padding: 5px 8px;
+      }
+
+      .info {
         left: 16px;
         right: 16px;
         bottom: 16px;
         width: auto;
       }
-
-      .tag {
-        font-size: 13px;
-        padding: 6px 10px;
-      }
     }
   </style>
 
-  <div class="scene-map">
-    <div class="map-title">TOKYO SCENE MAP</div>
+  <div class="ofgf-map">
+    <div class="title">TOKYO SCENE MAP</div>
+    <div class="subtitle">click a star to explore</div>
 
-    <div class="bg-label diy">DIY/PUNK SCENE</div>
-    <div class="bg-label clubs">CLUBS AND PARTIES</div>
-    <div class="bg-label heart">HEART OF THE LIVE SCENE</div>
+    <div class="scene-label diy">DIY / Punk Scene</div>
+    <div class="scene-label clubs">Clubs and Parties</div>
+    <div class="scene-label heart">Heart of the Live Scene</div>
 
-    <div class="sparkle s1">✦</div>
-    <div class="sparkle s2">✧</div>
-    <div class="sparkle s3">✧</div>
-    <div class="sparkle s4">✧</div>
-    <div class="sparkle s5">✦</div>
+    <div class="route r1"></div>
+    <div class="route r2"></div>
+    <div class="route r3"></div>
+
+    <div class="scribble s1">////</div>
+    <div class="scribble s2">★ ★</div>
+    <div class="scribble s3">zzz</div>
 
     <button class="area shimokita active" style="left:29%; top:63%;" onclick="showArea('shimokita', this)">
       <span class="star">★</span>
       <span class="tag">Shimokitazawa</span>
     </button>
 
-    <button class="area" style="left:26%; top:34%;" onclick="showArea('koenji', this)">
+    <button class="area" style="left:25%; top:36%;" onclick="showArea('koenji', this)">
       <span class="star">★</span>
       <span class="tag">Koenji</span>
     </button>
 
-    <button class="area" style="left:37%; top:31%;" onclick="showArea('asagaya', this)">
+    <button class="area" style="left:37%; top:32%;" onclick="showArea('asagaya', this)">
       <span class="star">★</span>
       <span class="tag">Asagaya</span>
     </button>
 
-    <button class="area" style="left:48%; top:36%;" onclick="showArea('shinjuku', this)">
+    <button class="area" style="left:49%; top:38%;" onclick="showArea('shinjuku', this)">
       <span class="star">★</span>
       <span class="tag">Shinjuku</span>
     </button>
@@ -218,13 +272,13 @@
       <span class="tag">Shibuya</span>
     </button>
 
-    <button class="area" style="left:68%; top:55%;" onclick="showArea('roppongi', this)">
+    <button class="area" style="left:70%; top:55%;" onclick="showArea('roppongi', this)">
       <span class="star">★</span>
       <span class="tag">Roppongi</span>
     </button>
 
-    <div class="info-card" id="infoCard">
-      <button class="close-card" onclick="hideCard()">×</button>
+    <div class="info" id="infoCard">
+      <button class="close" onclick="hideCard()">×</button>
       <h3 id="areaTitle">Shimokitazawa</h3>
       <p id="areaText">The heart of Tokyo’s live-house scene: indie bands, small venues, record shops, late trains, and lots of music fans wandering between shows.</p>
       <a id="areaLink" href="#">Read the guide</a>
@@ -266,11 +320,10 @@
     };
 
     function showArea(area, button) {
-      const card = document.getElementById("infoCard");
       document.getElementById("areaTitle").textContent = areaInfo[area].title;
       document.getElementById("areaText").textContent = areaInfo[area].text;
       document.getElementById("areaLink").href = areaInfo[area].link;
-      card.style.display = "block";
+      document.getElementById("infoCard").style.display = "block";
 
       document.querySelectorAll(".area").forEach(el => el.classList.remove("active"));
       button.classList.add("active");
