@@ -3,31 +3,31 @@
   <div class="map-title">
     <div class="stars">✦✧★✩☆★✧✦</div>
     <h1>LIVE HOUSE MAP</h1>
-    <p>your guide to tokyo livehouses</p>
+    <p>click a neighborhood to explore</p>
   </div>
 
   <div class="map-layout">
 
-    <div class="venue-list">
-      <div class="venue"><span>01</span><h2>SHIBUYA</h2><p>big venues, late nights, easy access.</p></div>
-      <div class="venue"><span>02</span><h2>SHIMOKITA</h2><p>indie bands, basement shows, guitar music.</p></div>
-      <div class="venue"><span>03</span><h2>KOENJI</h2><p>punk, weird art, underground energy.</p></div>
-      <div class="venue"><span>04</span><h2>ASAGAYA</h2><p>DIY spaces, community shows, small rooms.</p></div>
-      <div class="venue"><span>05</span><h2>ROPPONGI</h2><p>international shows, bars, nightlife.</p></div>
+    <div class="info-panel" id="infoPanel">
+      <span>START HERE</span>
+      <h2>Choose a spot</h2>
+      <p>Click Shibuya, Shimokitazawa, Koenji, Asagaya, or Roppongi to see the livehouse vibe.</p>
+      <a href="#">READ GUIDE →</a>
     </div>
 
     <div class="map-box">
-      <div class="label shibuya">SHIBUYA</div>
-      <div class="label shimokita">SHIMOKITA</div>
-      <div class="label koenji">KOENJI</div>
-      <div class="label asagaya">ASAGAYA</div>
-      <div class="label roppongi">ROPPONGI</div>
 
-      <div class="pin p1">1</div>
-      <div class="pin p2">2</div>
-      <div class="pin p3">3</div>
-      <div class="pin p4">4</div>
-      <div class="pin p5">5</div>
+      <button class="label shibuya" onclick="showArea('shibuya')">SHIBUYA</button>
+      <button class="label shimokita" onclick="showArea('shimokita')">SHIMOKITA</button>
+      <button class="label koenji" onclick="showArea('koenji')">KOENJI</button>
+      <button class="label asagaya" onclick="showArea('asagaya')">ASAGAYA</button>
+      <button class="label roppongi" onclick="showArea('roppongi')">ROPPONGI</button>
+
+      <button class="pin p1" onclick="showArea('shibuya')">1</button>
+      <button class="pin p2" onclick="showArea('shimokita')">2</button>
+      <button class="pin p3" onclick="showArea('koenji')">3</button>
+      <button class="pin p4" onclick="showArea('asagaya')">4</button>
+      <button class="pin p5" onclick="showArea('roppongi')">5</button>
 
       <div class="road r1"></div>
       <div class="road r2"></div>
@@ -35,17 +35,9 @@
       <div class="road r4"></div>
 
       <div class="map-note">
-        <strong>EXPLORE.</strong>
-        <p>find new bands<br>meet new people<br>support live music</p>
+        <strong>SUPPORT LIVE MUSIC</strong>
       </div>
-    </div>
 
-    <div class="tips">
-      <h2>QUICK TIPS ★</h2>
-      <div><strong>doors</strong><p>usually 6–7pm</p></div>
-      <div><strong>drink fee</strong><p>bring cash</p></div>
-      <div><strong>merch</strong><p>support the bands</p></div>
-      <div><strong>respect</strong><p>be kind, be cool</p></div>
     </div>
 
   </div>
@@ -55,6 +47,61 @@
   </div>
 
 </div>
+
+<script>
+const areaInfo = {
+  shibuya: {
+    tag: "01 / SHIBUYA",
+    title: "Big-city livehouse energy",
+    text: "Best for easy access, bigger venues, mixed crowds, late nights, and shows that feel close to Tokyo nightlife.",
+    link: "#"
+  },
+  shimokita: {
+    tag: "02 / SHIMOKITAZAWA",
+    title: "Indie band central",
+    text: "Best for guitar bands, basement venues, small rooms, record-store energy, and discovering bands before they get bigger.",
+    link: "#"
+  },
+  koenji: {
+    tag: "03 / KOENJI",
+    title: "Punk, weird, underground",
+    text: "Best for rougher edges, experimental shows, punk energy, art crowds, and the less polished side of Tokyo music.",
+    link: "#"
+  },
+  asagaya: {
+    tag: "04 / ASAGAYA",
+    title: "DIY community shows",
+    text: "Best for intimate rooms, international-friendly spaces, local scenes, and shows that feel like friend groups colliding.",
+    link: "#"
+  },
+  roppongi: {
+    tag: "05 / ROPPONGI",
+    title: "International nightlife",
+    text: "Best for international shows, bars, mixed-language crowds, and nights that lean more social than underground.",
+    link: "#"
+  }
+};
+
+function showArea(area) {
+  const data = areaInfo[area];
+  const panel = document.getElementById("infoPanel");
+
+  panel.innerHTML = `
+    <span>${data.tag}</span>
+    <h2>${data.title}</h2>
+    <p>${data.text}</p>
+    <a href="${data.link}">READ GUIDE →</a>
+  `;
+
+  document.querySelectorAll(".label, .pin").forEach(el => {
+    el.classList.remove("active");
+  });
+
+  document.querySelectorAll("." + area).forEach(el => {
+    el.classList.add("active");
+  });
+}
+</script>
 
 <style>
 body {
@@ -83,7 +130,7 @@ body {
 
 .map-title h1 {
   margin: 0;
-  font-size: clamp(52px, 9vw, 120px);
+  font-size: clamp(50px, 8vw, 110px);
   line-height: .85;
 }
 
@@ -99,45 +146,53 @@ body {
 
 .map-layout {
   display: grid;
-  grid-template-columns: 260px 1fr 230px;
-  gap: 14px;
+  grid-template-columns: 310px 1fr;
+  gap: 16px;
 }
 
-.venue-list,
-.tips,
-.map-box {
+.info-panel {
   border: 4px solid #111;
-  background: rgba(255,255,255,.35);
+  background: rgba(255,255,255,.55);
+  padding: 22px;
+  box-shadow: 8px 8px 0 #111;
 }
 
-.venue {
-  padding: 14px;
-  border-bottom: 3px solid #111;
-}
-
-.venue span {
+.info-panel span {
   display: inline-block;
-  background: #d9362b;
-  color: #fff;
-  border: 2px solid #111;
-  padding: 3px 8px;
-  margin-right: 6px;
+  background: #111;
+  color: #fff742;
+  padding: 6px 10px;
+  font-size: 12px;
+  margin-bottom: 14px;
 }
 
-.venue h2 {
-  display: inline;
-  font-size: 26px;
+.info-panel h2 {
+  margin: 0;
+  font-size: 36px;
+  line-height: .9;
 }
 
-.venue p {
+.info-panel p {
   font-family: "Courier New", monospace;
   font-weight: bold;
-  font-size: 13px;
+  line-height: 1.45;
+}
+
+.info-panel a {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: #fff742;
+  color: #111;
+  border: 2px solid #111;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 #111;
 }
 
 .map-box {
   position: relative;
   min-height: 620px;
+  border: 4px solid #111;
   overflow: hidden;
   background:
     linear-gradient(35deg, transparent 48%, #111 49%, #111 51%, transparent 52%),
@@ -146,13 +201,26 @@ body {
     #fff6d8;
 }
 
+.label,
+.pin {
+  cursor: pointer;
+  font-family: "Arial Black", Impact, sans-serif;
+}
+
 .label {
   position: absolute;
   background: #fff742;
   border: 3px solid #111;
   padding: 6px 12px;
-  font-size: 25px;
+  font-size: 24px;
   z-index: 3;
+}
+
+.label:hover,
+.pin:hover,
+.active {
+  background: #d9362b !important;
+  color: white !important;
 }
 
 .shibuya { right: 18%; bottom: 28%; }
@@ -167,7 +235,7 @@ body {
   color: #fff;
   border: 3px solid #111;
   padding: 7px 11px;
-  font-size: 25px;
+  font-size: 24px;
   z-index: 4;
 }
 
@@ -195,52 +263,21 @@ body {
   bottom: 26px;
   background: #111;
   color: #fff742;
-  padding: 18px;
+  padding: 16px;
   z-index: 5;
-}
-
-.map-note strong {
-  font-size: 28px;
-}
-
-.map-note p {
-  font-family: "Courier New", monospace;
-  color: white;
-  font-size: 13px;
-}
-
-.tips h2 {
-  padding: 14px;
-  margin: 0;
-  border-bottom: 3px solid #111;
-  font-size: 25px;
-}
-
-.tips div {
-  padding: 18px;
-  border-bottom: 3px solid #111;
-}
-
-.tips strong {
   font-size: 22px;
-  text-transform: uppercase;
-}
-
-.tips p {
-  font-family: "Courier New", monospace;
-  font-weight: bold;
 }
 
 .map-footer {
-  margin-top: 14px;
+  margin-top: 16px;
   padding: 12px;
   background: #111;
   color: #fff742;
   text-align: center;
-  font-size: 25px;
+  font-size: 24px;
 }
 
-@media(max-width:900px) {
+@media(max-width:800px) {
   .map-layout {
     grid-template-columns: 1fr;
   }
@@ -249,9 +286,8 @@ body {
     min-height: 520px;
   }
 
-  .venue-list,
-  .tips {
-    display: none;
+  .label {
+    font-size: 16px;
   }
 }
 </style>
