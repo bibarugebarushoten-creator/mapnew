@@ -10,14 +10,20 @@
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 10;
-      overflow: auto;
+      overflow: hidden;
       border: 3px solid #111;
       box-shadow: 8px 8px 0 #111;
-      cursor: grab;
       background: #fff6c7;
     }
 
-    .map-window.dragging {
+    .map-scroll {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      cursor: grab;
+    }
+
+    .map-scroll.dragging {
       cursor: grabbing;
       user-select: none;
     }
@@ -25,7 +31,7 @@
     .map-world {
       position: relative;
       width: 1150px;
-      height: 1050px;
+      height: 860px;
       overflow: hidden;
       background:
         radial-gradient(circle at 35% 30%, rgba(255,216,77,.38), transparent 20%),
@@ -38,8 +44,8 @@
       transition: transform .3s ease;
     }
 
-    .map-window.zoomed .map-world {
-      transform: scale(1.25);
+    .map-scroll.zoomed .map-world {
+      transform: scale(1.22);
     }
 
     .map-world::before {
@@ -53,11 +59,10 @@
     }
 
     .title {
-      position: sticky;
+      position: absolute;
       top: 20px;
       left: 20px;
-      z-index: 50;
-      width: fit-content;
+      z-index: 90;
       background: #111;
       color: #ffd84d;
       padding: 10px 16px;
@@ -66,13 +71,14 @@
       letter-spacing: -2px;
       transform: rotate(-2deg);
       box-shadow: 6px 6px 0 #ffd84d;
+      pointer-events: none;
     }
 
     .map-controls {
-      position: fixed;
+      position: absolute;
       left: 24px;
       bottom: 24px;
-      z-index: 9999;
+      z-index: 120;
       display: flex;
       gap: 8px;
     }
@@ -98,10 +104,10 @@
       pointer-events: none;
     }
 
-    .diy { top: 210px; left: 130px; transform: rotate(-4deg); }
-    .clubs { top: 330px; left: 850px; transform: rotate(3deg); }
-    .heart { top: 560px; left: 470px; transform: rotate(-1deg); }
-    .south { top: 830px; left: 560px; transform: rotate(2deg); }
+    .diy { top: 180px; left: 130px; transform: rotate(-4deg); }
+    .clubs { top: 315px; left: 850px; transform: rotate(3deg); }
+    .heart { top: 520px; left: 470px; transform: rotate(-1deg); }
+    .south { top: 730px; left: 520px; transform: rotate(2deg); }
 
     .area {
       position: absolute;
@@ -147,16 +153,15 @@
     }
 
     .panel {
-      position: sticky;
+      position: absolute;
       top: 24px;
-      float: right;
-      margin: 24px 24px 0 0;
+      right: 24px;
       width: min(340px, calc(100% - 48px));
       background: white;
       border: 3px solid #111;
       box-shadow: 7px 7px 0 #111;
       padding: 18px;
-      z-index: 100;
+      z-index: 110;
       transform: rotate(1deg);
     }
 
@@ -208,9 +213,9 @@
       pointer-events: none;
     }
 
-    .s1 { left: 230px; top: 530px; transform: rotate(-18deg); }
-    .s2 { left: 900px; top: 270px; transform: rotate(12deg); }
-    .s3 { left: 650px; top: 790px; transform: rotate(-9deg); }
+    .s1 { left: 230px; top: 500px; transform: rotate(-18deg); }
+    .s2 { left: 900px; top: 260px; transform: rotate(12deg); }
+    .s3 { left: 650px; top: 710px; transform: rotate(-9deg); }
 
     @media (max-width: 700px) {
       .map-window {
@@ -219,14 +224,18 @@
 
       .map-world {
         width: 1000px;
-        height: 1050px;
+        height: 860px;
       }
 
       .title {
         font-size: 24px;
+        top: 14px;
+        left: 14px;
       }
 
       .panel {
+        top: 70px;
+        right: 14px;
         width: 280px;
       }
 
@@ -246,7 +255,9 @@
     }
   </style>
 
-  <div class="map-window" id="mapWindow">
+  <div class="map-window">
+    <div class="title">TOKYO SCENE MAP</div>
+
     <div class="panel" id="infoPanel">
       <button class="close" onclick="hideCard()">×</button>
       <h3 id="areaTitle">Shimokitazawa</h3>
@@ -263,57 +274,57 @@
       </div>
     </div>
 
-    <div class="title">TOKYO SCENE MAP</div>
-
     <div class="map-controls">
       <button onclick="zoomMap()">Zoom in</button>
       <button onclick="resetZoom()">Zoom out</button>
     </div>
 
-    <div class="map-world">
-      <div class="scene-label diy">DIY / Punk Scene</div>
-      <div class="scene-label clubs">Clubs and Parties</div>
-      <div class="scene-label heart">Heart of the Live Scene</div>
-      <div class="scene-label south">South / Port City Scene</div>
+    <div class="map-scroll" id="mapScroll">
+      <div class="map-world">
+        <div class="scene-label diy">DIY / Punk Scene</div>
+        <div class="scene-label clubs">Clubs and Parties</div>
+        <div class="scene-label heart">Heart of the Live Scene</div>
+        <div class="scene-label south">South / Port City Scene</div>
 
-      <div class="scribble s1">////</div>
-      <div class="scribble s2">★ ★</div>
-      <div class="scribble s3">zzz</div>
+        <div class="scribble s1">////</div>
+        <div class="scribble s2">★ ★</div>
+        <div class="scribble s3">zzz</div>
 
-      <button class="area shimokita active" style="left:390px; top:535px;" onclick="showArea('shimokita', this)">
-        <span class="star">★</span>
-        <span class="tag">Shimokitazawa</span>
-      </button>
+        <button class="area shimokita active" style="left:390px; top:500px;" onclick="showArea('shimokita', this)">
+          <span class="star">★</span>
+          <span class="tag">Shimokitazawa</span>
+        </button>
 
-      <button class="area" style="left:330px; top:310px;" onclick="showArea('koenji', this)">
-        <span class="star">★</span>
-        <span class="tag">Koenji</span>
-      </button>
+        <button class="area" style="left:330px; top:275px;" onclick="showArea('koenji', this)">
+          <span class="star">★</span>
+          <span class="tag">Koenji</span>
+        </button>
 
-      <button class="area" style="left:500px; top:280px;" onclick="showArea('asagaya', this)">
-        <span class="star">★</span>
-        <span class="tag">Asagaya</span>
-      </button>
+        <button class="area" style="left:500px; top:250px;" onclick="showArea('asagaya', this)">
+          <span class="star">★</span>
+          <span class="tag">Asagaya</span>
+        </button>
 
-      <button class="area" style="left:660px; top:350px;" onclick="showArea('shinjuku', this)">
-        <span class="star">★</span>
-        <span class="tag">Shinjuku</span>
-      </button>
+        <button class="area" style="left:660px; top:330px;" onclick="showArea('shinjuku', this)">
+          <span class="star">★</span>
+          <span class="tag">Shinjuku</span>
+        </button>
 
-      <button class="area" style="left:760px; top:510px;" onclick="showArea('shibuya', this)">
-        <span class="star">★</span>
-        <span class="tag">Shibuya</span>
-      </button>
+        <button class="area" style="left:760px; top:475px;" onclick="showArea('shibuya', this)">
+          <span class="star">★</span>
+          <span class="tag">Shibuya</span>
+        </button>
 
-      <button class="area" style="left:900px; top:470px;" onclick="showArea('roppongi', this)">
-        <span class="star">★</span>
-        <span class="tag">Roppongi</span>
-      </button>
+        <button class="area" style="left:900px; top:435px;" onclick="showArea('roppongi', this)">
+          <span class="star">★</span>
+          <span class="tag">Roppongi</span>
+        </button>
 
-      <button class="area yokohama" style="left:590px; top:870px;" onclick="showArea('yokohama', this)">
-        <span class="star">★</span>
-        <span class="tag">Yokohama</span>
-      </button>
+        <button class="area yokohama" style="left:590px; top:780px;" onclick="showArea('yokohama', this)">
+          <span class="star">★</span>
+          <span class="tag">Yokohama</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -403,14 +414,14 @@
     }
 
     function zoomMap() {
-      document.getElementById("mapWindow").classList.add("zoomed");
+      document.getElementById("mapScroll").classList.add("zoomed");
     }
 
     function resetZoom() {
-      document.getElementById("mapWindow").classList.remove("zoomed");
+      document.getElementById("mapScroll").classList.remove("zoomed");
     }
 
-    const mapWindow = document.getElementById("mapWindow");
+    const mapScroll = document.getElementById("mapScroll");
 
     let isDown = false;
     let startX;
@@ -418,45 +429,46 @@
     let scrollLeft;
     let scrollTop;
 
-    mapWindow.addEventListener("mousedown", function(e) {
+    mapScroll.addEventListener("mousedown", function(e) {
+      if (e.target.closest("button")) return;
+
       isDown = true;
-      mapWindow.classList.add("dragging");
-      startX = e.pageX - mapWindow.offsetLeft;
-      startY = e.pageY - mapWindow.offsetTop;
-      scrollLeft = mapWindow.scrollLeft;
-      scrollTop = mapWindow.scrollTop;
+      mapScroll.classList.add("dragging");
+
+      startX = e.pageX - mapScroll.offsetLeft;
+      startY = e.pageY - mapScroll.offsetTop;
+
+      scrollLeft = mapScroll.scrollLeft;
+      scrollTop = mapScroll.scrollTop;
     });
 
-    mapWindow.addEventListener("mouseleave", function() {
+    mapScroll.addEventListener("mouseleave", stopDragging);
+    mapScroll.addEventListener("mouseup", stopDragging);
+
+    function stopDragging() {
       isDown = false;
-      mapWindow.classList.remove("dragging");
-    });
+      mapScroll.classList.remove("dragging");
+    }
 
-    mapWindow.addEventListener("mouseup", function() {
-      isDown = false;
-      mapWindow.classList.remove("dragging");
-    });
-
-    mapWindow.addEventListener("mousemove", function(e) {
+    mapScroll.addEventListener("mousemove", function(e) {
       if (!isDown) return;
       e.preventDefault();
 
-      const x = e.pageX - mapWindow.offsetLeft;
-      const y = e.pageY - mapWindow.offsetTop;
+      const x = e.pageX - mapScroll.offsetLeft;
+      const y = e.pageY - mapScroll.offsetTop;
 
       const walkX = (x - startX) * 0.35;
       const walkY = (y - startY) * 1.4;
 
-      mapWindow.scrollLeft = scrollLeft - walkX;
-      mapWindow.scrollTop = scrollTop - walkY;
+      mapScroll.scrollLeft = scrollLeft - walkX;
+      mapScroll.scrollTop = scrollTop - walkY;
     });
 
     window.addEventListener("load", function() {
       showOverview();
 
-      /* Loading point: main Tokyo cluster */
-      mapWindow.scrollLeft = 170;
-      mapWindow.scrollTop = 120;
+      mapScroll.scrollLeft = 130;
+      mapScroll.scrollTop = 80;
     });
   </script>
 </div>
