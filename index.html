@@ -626,21 +626,25 @@
     let scrollLeft;
     let scrollTop;
 
-    mapScroll.addEventListener("mousedown",
-    function(e) {
+    if (window.innerWidth > 700) {
 
-      if (e.target.closest("button")) return;
+  mapScroll.addEventListener("mousemove", function(e) {
 
-      isDown = true;
+    if (!isDown) return;
 
-      mapScroll.classList.add("dragging");
+    e.preventDefault();
 
-      startX = e.pageX - mapScroll.offsetLeft;
-      startY = e.pageY - mapScroll.offsetTop;
+    const x = e.pageX - mapScroll.offsetLeft;
+    const y = e.pageY - mapScroll.offsetTop;
 
-      scrollLeft = mapScroll.scrollLeft;
-      scrollTop = mapScroll.scrollTop;
-    });
+    const walkX = (x - startX) * 0.35;
+    const walkY = (y - startY) * 1.4;
+
+    mapScroll.scrollLeft = scrollLeft - walkX;
+    mapScroll.scrollTop = scrollTop - walkY;
+  });
+
+}
 
     mapScroll.addEventListener("mouseleave",
     stopDragging);
